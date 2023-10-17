@@ -5,7 +5,7 @@ export default function ProductList() {
     <>
       <h2 className="text-xl text-slate-300 font-bold mb-2">Product list</h2>
       <div className="flex items-center justify-between mb-6">
-        <label for="search-input" className="text-slate-500 text-lg">
+        <label htmlFor="search-input" className="text-slate-500 text-lg">
           search
         </label>
         <input
@@ -16,7 +16,7 @@ export default function ProductList() {
         />
       </div>
       <div className="flex items-center justify-between mb-6">
-        <label for="sort-products" className="text-slate-500 text-lg">
+        <label htmlFor="sort-products" className="text-slate-500 text-lg">
           sort
         </label>
         <select
@@ -27,11 +27,7 @@ export default function ProductList() {
           <option className="bg-slate-500 text-slate-300" value="">
             select a category
           </option>
-          <option
-            className="bg-slate-500 text-slate-300"
-            selected
-            value="newest"
-          >
+          <option className="bg-slate-500 text-slate-300" value="newest">
             newest
           </option>
           <option className="bg-slate-500 text-slate-300" value="oldest">

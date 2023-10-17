@@ -1,8 +1,23 @@
 import React from "react";
 import { useState } from "react";
 
-export default function CategoryForm() {
+export default function CategoryForm({ addCategoriesHandler }) {
   const [isShow, setIsShow] = useState(false);
+  const [category, setCategory] = useState({
+    title: "",
+    description: "",
+  });
+  const handleCategory = (e) => {
+    setCategory({ ...category, [e.target.name]: e.target.value });
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    addCategoriesHandler(category);
+    setCategory({
+      title: "",
+      description: "",
+    });
+  };
   return (
     <section>
       <div className={`mb-6${isShow ? "" : " hidden"}`} id="category-wrapper">
@@ -10,23 +25,28 @@ export default function CategoryForm() {
           Add New category
         </h2>
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={submitHandler}
           className="bg-slate-700 p-4 rounded-xl flex flex-col gap-y-4"
         >
           <div>
-            <label for="category-title" className="block mb-1 text-slate-400">
+            <label
+              htmlFor="category-title"
+              className="block mb-1 text-slate-400"
+            >
               title
             </label>
             <input
               type="text"
-              name="category-title"
+              name="title"
               id="category-title"
+              value={category.title}
               className="bg-transparent rounded-xl border border-slate-500 text-slate-400 w-full md:w-auto"
+              onChange={(e) => handleCategory(e)}
             />
           </div>
           <div>
             <label
-              for="category-description"
+              htmlFor="category-description"
               className="block mb-1 text-slate-400"
             >
               description
@@ -34,12 +54,15 @@ export default function CategoryForm() {
             <textarea
               className="bg-transparent rounded-xl border border-slate-500 text-slate-400 w-full"
               type=" text"
-              name="category-description"
+              name="description"
               id="category-description"
+              value={category.description}
+              onChange={handleCategory}
             ></textarea>
           </div>
           <div className="flex items-center justify-between gap-x-4">
             <button
+              type="button"
               className="flex-1 border border-slate-400 text-slate-400 rounded-xl py-2"
               id="cancel-add-category"
               onClick={() => setIsShow(false)}
@@ -47,6 +70,7 @@ export default function CategoryForm() {
               Cancel
             </button>
             <button
+              type="submit"
               id="add-new-category"
               className="flex-1 bg-slate-500 text-slate-200 rounded-xl py-2"
             >
