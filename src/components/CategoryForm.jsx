@@ -1,13 +1,18 @@
 import React from "react";
+import { useState } from "react";
 
 export default function CategoryForm() {
+  const [isShow, setIsShow] = useState(false);
   return (
     <section>
-      <div className="mb-6 hidden" id="category-wrapper">
+      <div className={`mb-6${isShow ? "" : " hidden"}`} id="category-wrapper">
         <h2 className="text-xl text-slate-300 font-bold mb-2">
           Add New category
         </h2>
-        <form className="bg-slate-700 p-4 rounded-xl flex flex-col gap-y-4">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="bg-slate-700 p-4 rounded-xl flex flex-col gap-y-4"
+        >
           <div>
             <label for="category-title" className="block mb-1 text-slate-400">
               title
@@ -37,6 +42,7 @@ export default function CategoryForm() {
             <button
               className="flex-1 border border-slate-400 text-slate-400 rounded-xl py-2"
               id="cancel-add-category"
+              onClick={() => setIsShow(false)}
             >
               Cancel
             </button>
@@ -50,8 +56,10 @@ export default function CategoryForm() {
         </form>
       </div>
       <button
-        id="toggle-add-category"
-        className="text-slate-600 text-lg mb-4 font-medium"
+        className={`text-slate-600 text-lg mb-4 font-medium ${
+          isShow && "hidden"
+        }`}
+        onClick={() => setIsShow((prev) => !prev)}
       >
         Add new Category?
       </button>
