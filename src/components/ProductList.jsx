@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 
-export default function ProductList() {
+export default function ProductList({
+  products,
+  onDeleteHandler,
+  // searchHandler,
+}) {
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  useEffect(() => {}, [products]);
+  const searchHandler = (value) => {
+    const searchedProducts = products.filter((item) =>
+      item.title.includes(value)
+    );
+    setFilteredProducts(searchedProducts);
+    console.log(value);
+  };
   return (
     <>
       <h2 className="text-xl text-slate-300 font-bold mb-2">Product list</h2>
@@ -13,6 +27,7 @@ export default function ProductList() {
           name="search-input"
           id="search-input"
           className="bg-transparent rounded-xl border border-slate-500 text-slate-400"
+          onChange={(e) => searchHandler(e.target.value)}
         />
       </div>
       <div className="flex items-center justify-between mb-6">
@@ -36,7 +51,33 @@ export default function ProductList() {
         </select>
       </div>
       <div id="products-list" className="overflow-x-auto"></div>
-      <div className="h-20"></div>
+      <div className="h-20">
+        {filteredProducts.map((item) => (
+          <div
+            key={item.createdAt}
+            className="flex items-center justify-between mb-2 w-full min-w-[400px]"
+          >
+            <span className="text-slate-400">{item.title}</span>
+            <div className="flex items-center gap-x-3">
+              <span className="text-slate-400">
+                {new Date().toLocaleDateString("fa-IR")}
+              </span>
+              <span className="block px-3 py-0.5 text-slate-400 border border-slate-400 text-sm rounded-2xl">
+                {item.title}
+              </span>
+              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-500 border-2 border-slate-300 text-slate-300">
+                {item.quantity}
+              </span>
+              <button
+                className="delete-product border px-2 py-o.5 rounded-2xl border-red-400 text-red-400 delete-product"
+                onClick={() => onDeleteHandler(item.id)}
+              >
+                delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

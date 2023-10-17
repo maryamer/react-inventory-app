@@ -7,7 +7,7 @@ import ProductList from "./components/ProductList";
 import ProductsForm from "./components/ProductsForm";
 
 function App() {
-  const products = [
+  const products1 = [
     {
       id: 1,
       title: "React.js",
@@ -45,23 +45,62 @@ function App() {
   const [categories, setCategories] = useState(
     JSON.parse(localStorage.getItem("categories")) || []
   );
+  const [products, setProducts] = useState(
+    JSON.parse(localStorage.getItem("products")) || []
+  );
   const addCategoriesHandler = (category) => {
-    setCategories((prev) => [...prev, category]);
+    setCategories((prev) => [
+      ...prev,
+      { ...category, createdAt: new Date().toISOString() },
+    ]);
     localStorage.setItem(
       "categories",
-      JSON.stringify([...categories, category])
+      JSON.stringify([
+        ...categories,
+        {
+          ...category,
+          createdAt: new Date().toISOString(),
+          id: new Date().getTime(),
+        },
+      ])
     );
   };
+  const addProductsHandler = (product) => {
+    setProducts((prev) => [
+      ...prev,
+      {
+        ...product,
+        createdAt: new Date().toISOString(),
+        id: new Date().getTime(),
+      },
+    ]);
+    localStorage.setItem(
+      "products",
+      JSON.stringify([
+        ...products,
+        { ...product, createdAt: new Date().toISOString() },
+      ])
+    );
+  };
+  const onDeleteHandler = (id) => {
+    const filteredProducts = products.filter((item) => item.id !== id);
+    setProducts(filteredProducts);
+    localStorage.setItem("products", JSON.stringify(filteredProducts));
+  };
+
   useEffect(() => {
-    console.log(categories);
-  }, [categories]);
+    console.log(categories, products);
+  }, [categories, products]);
   return (
     <div className="bg-slate-800 w-screen min-h-screen">
       <Navbar />
       <div className="container max-w-screen-sm mx-auto p-4">
         <CategoryForm addCategoriesHandler={addCategoriesHandler} />
-        <ProductsForm />
-        <ProductList />
+        <ProductsForm
+          categories={categories}
+          addProductsHandler={addProductsHandler}
+        />
+        <ProductList products={products} onDeleteHandler={onDeleteHandler} />
       </div>
     </div>
   );
