@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-export default function ProductList({
-  products,
-  onDeleteHandler,
-  // searchHandler,
-}) {
+export default function ProductList({ products, onDeleteHandler, categories }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
   useEffect(() => {}, [products]);
   const searchHandler = (value) => {
@@ -14,6 +10,25 @@ export default function ProductList({
     );
     setFilteredProducts(searchedProducts);
     console.log(value);
+  };
+  const sortHandler = (e) => {
+    const sortBy = e.target.value;
+    if (sortBy === "oldest") {
+      const sorted = [...filteredProducts].sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : -1
+      );
+      setFilteredProducts(sorted);
+    } else if (sortBy === "") {
+      setFilteredProducts(products);
+    } else if (sortBy === "newest") {
+      const sorted = [...filteredProducts].sort((a, b) =>
+        a.createdAt > b.createdAt ? -1 : 1
+      );
+      setFilteredProducts(sorted);
+    } else {
+      const filtered = products.filter((item) => item.category === sortBy);
+      setFilteredProducts(filtered);
+    }
   };
   return (
     <>
@@ -38,16 +53,26 @@ export default function ProductList({
           name="sort-products"
           id="sort-products"
           className="bg-transparent text-slate-400 rounded-xl"
+          onChange={sortHandler}
         >
-          <option className="bg-slate-500 text-slate-300" value="">
+          <option className="bg-slate-600 text-slate-300" value="">
             select a category
           </option>
-          <option className="bg-slate-500 text-slate-300" value="newest">
+          <option className="bg-slate-600 text-slate-300" value="newest">
             newest
           </option>
-          <option className="bg-slate-500 text-slate-300" value="oldest">
+          <option className="bg-slate-600 text-slate-300" value="oldest">
             oldest
           </option>
+          {categories.map((item) => (
+            <option
+              key={item.id}
+              className="bg-slate-500 text-slate-300"
+              value={item.title}
+            >
+              {item.title}
+            </option>
+          ))}
         </select>
       </div>
       <div id="products-list" className="overflow-x-auto"></div>

@@ -100,7 +100,11 @@ function App() {
           categories={categories}
           addProductsHandler={addProductsHandler}
         />
-        <ProductList products={products} onDeleteHandler={onDeleteHandler} />
+        <ProductList
+          categories={categories}
+          products={products}
+          onDeleteHandler={onDeleteHandler}
+        />
       </div>
     </div>
   );
