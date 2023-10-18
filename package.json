@@ -1,7 +1,7 @@
 {
   "name": "env-variables",
   "private": true,
-  "homepage": "https://maryamer.github.io/react-inventory-app.github.io",
+  "homepage": "https://maryamer.github.io/react-inventory-app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
