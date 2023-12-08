@@ -94,7 +94,7 @@ function App() {
   return (
     <div className="bg-slate-800 w-full min-h-screen ">
       <Navbar />
-      <div className="container max-w-screen-sm mx-auto ">
+      <div className="container max-w-screen-sm mx-auto px-3">
         <CategoryForm addCategoriesHandler={addCategoriesHandler} />
         <ProductsForm
           categories={categories}
