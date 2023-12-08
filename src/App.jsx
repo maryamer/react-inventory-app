@@ -92,9 +92,9 @@ function App() {
     console.log(categories, products);
   }, [categories, products]);
   return (
-    <div className="bg-slate-800 w-screen min-h-screen">
+    <div className="bg-slate-800 w-full min-h-screen ">
       <Navbar />
-      <div className="container max-w-screen-sm mx-auto p-4">
+      <div className="container max-w-screen-sm mx-auto ">
         <CategoryForm addCategoriesHandler={addCategoriesHandler} />
         <ProductsForm
           categories={categories}
