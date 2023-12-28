@@ -1,8 +1,11 @@
 import React from "react";
 import { useState } from "react";
 
-export default function CategoryForm({ addCategoriesHandler }) {
-  const [isShow, setIsShow] = useState(false);
+export default function CategoryForm({
+  addCategoriesHandler,
+  setIsShow,
+  isShow,
+}) {
   const [category, setCategory] = useState({
     title: "",
     description: "",

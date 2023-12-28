@@ -5,6 +5,7 @@ import CategoryForm from "./components/CategoryForm";
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
 import ProductsForm from "./components/ProductsForm";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const products1 = [
@@ -51,7 +52,11 @@ function App() {
   const addCategoriesHandler = (category) => {
     setCategories((prev) => [
       ...prev,
-      { ...category, createdAt: new Date().toISOString() },
+      {
+        ...category,
+        createdAt: new Date().toISOString(),
+        id: new Date().getTime(),
+      },
     ]);
     localStorage.setItem(
       "categories",
@@ -64,6 +69,7 @@ function App() {
         },
       ])
     );
+    toast.success("category added");
   };
   const addProductsHandler = (product) => {
     setProducts((prev) => [
@@ -81,6 +87,7 @@ function App() {
         { ...product, createdAt: new Date().toISOString() },
       ])
     );
+    toast.success("product added");
   };
   const onDeleteHandler = (id) => {
     const filteredProducts = products.filter((item) => item.id !== id);
@@ -88,15 +95,22 @@ function App() {
     localStorage.setItem("products", JSON.stringify(filteredProducts));
   };
 
-  useEffect(() => {
-    console.log(categories, products);
-  }, [categories, products]);
+  // useEffect(() => {
+  //   console.log(categories, products);
+  // }, [categories, products]);
+  const [isShowCatForm, setIsShowCatForm] = useState(false);
   return (
-    <div className="bg-slate-800 w-full min-h-screen ">
+    <div className="bg-slate-800 w-full h-screen overflow-auto ">
+      <Toaster />
       <Navbar />
       <div className="container max-w-screen-sm mx-auto px-3">
-        <CategoryForm addCategoriesHandler={addCategoriesHandler} />
+        <CategoryForm
+          setIsShow={setIsShowCatForm}
+          isShow={isShowCatForm}
+          addCategoriesHandler={addCategoriesHandler}
+        />
         <ProductsForm
+          setIsShowCatForm={setIsShowCatForm}
           categories={categories}
           addProductsHandler={addProductsHandler}
         />

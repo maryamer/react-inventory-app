@@ -1,7 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
-export default function ProductsForm({ categories, addProductsHandler }) {
+export default function ProductsForm({
+  setIsShowCatForm,
+  categories,
+  addProductsHandler,
+}) {
   const [product, setProduct] = useState({
     title: "",
     quantity: 0,
@@ -12,7 +17,16 @@ export default function ProductsForm({ categories, addProductsHandler }) {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    addProductsHandler(product);
+    if (product.title) {
+      addProductsHandler(product);
+      setProduct({
+        title: "",
+        quantity: 0,
+        category: "",
+      });
+    } else {
+      toast.error("title can not be blank");
+    }
   };
   return (
     <div className="mb-6">
@@ -30,6 +44,7 @@ export default function ProductsForm({ categories, addProductsHandler }) {
             name="title"
             value={product.title}
             id="product-title"
+            onClick={() => setIsShowCatForm(false)}
             onChange={onChangeHandler}
             className="bg-transparent rounded-xl border border-slate-500 text-slate-400 w-full md:w-auto"
           />

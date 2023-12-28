@@ -3,7 +3,9 @@ import { useState } from "react";
 
 export default function ProductList({ products, onDeleteHandler, categories }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
-  useEffect(() => {}, [products]);
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
   const searchHandler = (value) => {
     const searchedProducts = products.filter((item) =>
       item.title.includes(value)
@@ -32,7 +34,9 @@ export default function ProductList({ products, onDeleteHandler, categories }) {
   };
   return (
     <>
-      <h2 className="text-xl text-slate-300 font-bold mb-2">Product list</h2>
+      <h2 className="text-xl text-slate-300 h-full font-bold mb-2">
+        Product list
+      </h2>
       <div className="flex items-center justify-between mb-6">
         <label htmlFor="search-input" className="text-slate-500 text-lg">
           search
@@ -56,7 +60,7 @@ export default function ProductList({ products, onDeleteHandler, categories }) {
           onChange={sortHandler}
         >
           <option className="bg-slate-600 text-slate-300" value="">
-            select a category
+            all
           </option>
           <option className="bg-slate-600 text-slate-300" value="newest">
             newest
@@ -75,7 +79,7 @@ export default function ProductList({ products, onDeleteHandler, categories }) {
           ))}
         </select>
       </div>
-      <div id="products-list" className="overflow-x-auto"></div>
+
       <div className="h-20">
         {filteredProducts.map((item) => (
           <div
